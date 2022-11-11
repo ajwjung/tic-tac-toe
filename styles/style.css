@@ -3,4 +3,22 @@ body {
     width: 100vw;
     margin: 0 auto;
     padding: 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-container {
+    height: 50%;
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 15px;
+    background-color: rgb(200, 200, 200);
+}
+
+.cell {
+    background-color: rgb(255, 255, 255);
 }
