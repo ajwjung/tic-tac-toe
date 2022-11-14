@@ -5,7 +5,8 @@ const Player = (name, marker) => {
 // A module for the board
 const GameBoard = (() => {
     // Temporary contents
-    let board = ["X", "O", "X", "O", "X", "O", "X", "O", "O"];
+    // let board = ["X", "O", "X", "O", "X", "O", "X", "O", "O"];
+    let board = ["", "", "", "", "", "", "", "", ""];
     
     return { board };
 })();
@@ -31,21 +32,23 @@ const DisplayController = (() => {
                 // get cell ID to use as array index
                 const index = e.target.getAttribute("id").slice(-1);
                 const playerTurn = getPlayerTurn(counter);
-                
+
                 // update board array to add new marker
-                if (playerTurn === "playerOne") {
-                    GameBoard.board[index] = p1.marker;
-                } else if (playerTurn === "playerTwo") {
-                    GameBoard.board[index] = p2.marker;
-                }
+                if (GameBoard.board[index].length === 0) {
+                    if (playerTurn === "playerOne") {
+                        GameBoard.board[index] = p1.marker;
+                    } else if (playerTurn === "playerTwo") {
+                        GameBoard.board[index] = p2.marker;
+                    }
+                    counter++;
+                } else return
 
                 render(index);
-                counter++;
             })
         })
     };
 
-    return { render, placeMarker }
+    return { placeMarker }
 })();
 
 // Main module to run the game
