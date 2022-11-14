@@ -15,10 +15,8 @@ const DisplayController = (() => {
     const gridCells = document.querySelectorAll(".cell");
 
     // Display board contents
-    const render = () => {
-        for (let i = 0; i < 9; i++) {
-            gridCells[i].innerHTML = GameBoard.board[i];
-        }
+    const render = (ind) => {
+        gridCells[ind].innerHTML = GameBoard.board[ind];
     };
 
     const getPlayerTurn = (counter) => {
@@ -41,7 +39,7 @@ const DisplayController = (() => {
                     GameBoard.board[index] = p2.marker;
                 }
 
-                render();
+                render(index);
                 counter++;
             })
         })
@@ -56,6 +54,5 @@ const Game = (() => {
     const playerTwo = Player("Jack", "O");
     let turnsCounter = 0; 
     
-    DisplayController.render();
     DisplayController.placeMarker(playerOne, playerTwo, turnsCounter);
 })();
