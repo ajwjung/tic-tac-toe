@@ -22,7 +22,7 @@ const DisplayController = (() => {
 
     const getPlayerTurn = (counter) => {
         // playerOne starts the game
-        if (counter % 2 === 0) return "playerOne"
+        if (!(counter % 2 === 0)) return "playerOne"
         else return "playerTwo";
     };
 
@@ -55,7 +55,7 @@ const DisplayController = (() => {
 const Game = (() => {
     const playerOne = Player("Bob", "X");
     const playerTwo = Player("Jack", "O");
-    let turnsCounter = 0; 
+    let turnsCounter = 1; 
     
     DisplayController.placeMarker(playerOne, playerTwo, turnsCounter);
 })();
