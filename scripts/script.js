@@ -20,27 +20,21 @@ const DisplayController = (() => {
         gridCells[ind].innerHTML = GameBoard.board[ind];
     };
 
-    const getPlayerTurn = (counter) => {
-        // playerOne starts the game
-        if (!(counter % 2 === 0)) return "playerOne"
-        else return "playerTwo";
-    };
-
     const placeMarker = (p1, p2, counter) => {
         gridCells.forEach(cell => {
             cell.addEventListener("click", function (e) {
                 // get cell ID to use as array index
                 const index = e.target.getAttribute("id").slice(-1);
-                const playerTurn = getPlayerTurn(counter);
+                const currentPlayer = Turns.getPlayerTurn();
 
-                // update board array to add new marker
+                // only update board if spot is available
                 if (GameBoard.board[index].length === 0) {
-                    if (playerTurn === "playerOne") {
+                    if (currentPlayer === "playerOne") {
                         GameBoard.board[index] = p1.marker;
-                    } else if (playerTurn === "playerTwo") {
+                    } else if (currentPlayer === "playerTwo") {
                         GameBoard.board[index] = p2.marker;
                     }
-                    counter++;
+                    Turns.incrementCounter();
                 } else return
 
                 render(index);
@@ -51,11 +45,26 @@ const DisplayController = (() => {
     return { placeMarker }
 })();
 
+// Module for turns
+const Turns = (() => {
+    let turnsCounter = 1;
+
+    const getPlayerTurn = () => {
+        // playerOne starts the game
+        if (!(turnsCounter % 2 === 0)) return "playerOne"
+        else return "playerTwo";
+    };
+
+    const incrementCounter = () => turnsCounter++;
+
+    return { getPlayerTurn, incrementCounter };
+})();
+
 // Main module to run the game
 const Game = (() => {
     const playerOne = Player("Bob", "X");
     const playerTwo = Player("Jack", "O");
-    let turnsCounter = 1; 
-    
-    DisplayController.placeMarker(playerOne, playerTwo, turnsCounter);
+
+    DisplayController.placeMarker(playerOne, playerTwo);
+
 })();
