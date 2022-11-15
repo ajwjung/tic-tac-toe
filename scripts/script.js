@@ -20,7 +20,7 @@ const DisplayController = (() => {
         gridCells[ind].innerHTML = GameBoard.board[ind];
     };
 
-    const placeMarker = (p1, p2, counter) => {
+    const placeMarker = (p1, p2) => {
         gridCells.forEach(cell => {
             cell.addEventListener("click", function (e) {
                 // get cell ID to use as array index
@@ -36,8 +36,9 @@ const DisplayController = (() => {
                     }
                     Turns.incrementCounter();
                 } else return
-
+                
                 render(index);
+                WinStreak.printWinner();
             })
         })
     };
@@ -57,7 +58,51 @@ const Turns = (() => {
 
     const incrementCounter = () => turnsCounter++;
 
-    return { getPlayerTurn, incrementCounter };
+    return { turnsCounter, getPlayerTurn, incrementCounter };
+})();
+
+const WinStreak = (() => {
+    const winningCombos = [
+        [0, 1, 2], // row 1
+        [3, 4, 5], // row 2
+        [6, 7, 8], // row 3
+        [0, 3, 6], // col 1
+        [1, 4, 7], // col 2
+        [2, 5, 8], // col 3
+        [0, 4, 8], // diagonal 1
+        [2, 4, 6]  // diagonal 2
+    ]
+
+    const checkBoard = () => {
+        // Check that all elements at each index in the combo are the same marker
+        return winningCombos.filter(combo => {
+            const [i, j, k] = combo;
+            return (GameBoard.board[i] == GameBoard.board[j] && GameBoard.board[j] == GameBoard.board[k])
+        });
+    };
+
+    const getWinner = () => {
+        // Array returned from filter
+        const boardResult = checkBoard();
+        // Actual combo
+        const [winCombo] = boardResult;
+
+        if (boardResult.length > 0) {
+            const winningMarker = GameBoard.board[winCombo[0]];
+            if (winningMarker == "X") return "Player 1"
+            else if (winningMarker == "O") return "Player 2"
+        } else return;
+    };
+
+    const printWinner = () => {
+        const winner = getWinner();
+        if (winner) {
+            console.log(`We have a winner! Congratulations ${winner}!`) 
+        }
+    };
+
+    return { getWinner, printWinner }
+
 })();
 
 // Main module to run the game
@@ -68,3 +113,16 @@ const Game = (() => {
     DisplayController.placeMarker(playerOne, playerTwo);
 
 })();
+
+/* CURRENT ISSUES: 
+
+- Game does not terminate
+
+- Any moves played after the game was won
+will still log the congratulations message
+
+- Game checks for winner after every move 
+rather than starting from turn 5-6 when wins are actually possible
+
+
+*/
