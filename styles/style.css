@@ -5,11 +5,18 @@ body {
     padding: 0;
 }
 
-body,
+main,
 .cell {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+main {
+    flex-direction: column;
+    gap: 5rem;
 }
 
 .grid-container {
@@ -24,8 +31,13 @@ body,
 
 .cell {
     background-color: rgb(255, 255, 255);
-    height: 100%;
-    width: 100%;
+}
+
+#reset {
+    height: 50px;
+    width: 50px;
+    background-image: url("../images/refresh.svg");
+    background-size: cover;
 }
 
 .disable-pointer {
