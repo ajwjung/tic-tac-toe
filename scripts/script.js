@@ -80,15 +80,15 @@ const WinStreak = (() => {
         [2, 4, 6]  // diagonal 2
     ]
 
-    const checkStrNotEmpty = (str) => str.length > 0;
-
     const checkBoard = () => {
         // Check that all elements at each index in the combo are the same marker
         return winningCombos.filter(combo => {
             const [i, j, k] = combo;
-            if (checkStrNotEmpty(GameBoard.board[i]) && checkStrNotEmpty(GameBoard.board[j]) && checkStrNotEmpty(GameBoard.board[k])) {
-                return (GameBoard.board[i] == GameBoard.board[j] && GameBoard.board[j] == GameBoard.board[k])
-            }
+            return (
+                GameBoard.board[i] == GameBoard.board[j]
+                && GameBoard.board[j] == GameBoard.board[k]
+                && GameBoard.board[k].length > 0
+                )
         });
     };
 
