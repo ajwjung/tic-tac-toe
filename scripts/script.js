@@ -35,7 +35,7 @@ const DisplayController = (() => {
                         GameBoard.board[index] = p2.marker;
                     }
 
-                    WinStreak.checkForWinner();
+                    disableCells(WinStreak.checkForWinner());
                 } else return;
                 
                 render(index);
@@ -43,7 +43,12 @@ const DisplayController = (() => {
         })
     };
 
+    const disableCells = (gameWon) => {
+        if (gameWon) gridCells.forEach(cell => cell.classList.add("disable-pointer"))
+    }
+
     return { placeMarker }
+
 })();
 
 // Module for turns
@@ -96,6 +101,9 @@ const WinStreak = (() => {
 
         if (boardResult.length > 0) {
             const winningMarker = GameBoard.board[winCombo[0]];
+
+            // Can't we just return the marker by check it against the player object?
+            // like playerOne.name or playerOne.marker or something?
             if (winningMarker == "X") return "Player 1"
             else if (winningMarker == "O") return "Player 2"
         } else return;
@@ -118,6 +126,8 @@ const WinStreak = (() => {
         if (currentTurn == 10 && !(winnerExists)) {
             console.log("The game ended in a tie!");
         }
+
+        return winnerExists
     }
 
     return { checkForWinner }
