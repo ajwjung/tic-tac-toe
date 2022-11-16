@@ -35,12 +35,8 @@ const DisplayController = (() => {
                         GameBoard.board[index] = p2.marker;
                     }
 
-                    // check for winner starting from turn 6
-                    const currentTurn = Turns.incrementCounter();
-                    if (currentTurn > 5) {
-                        WinStreak.printWinner();
-                    }
-                } else return
+                    WinStreak.checkForWinner();
+                } else return;
                 
                 render(index);
             })
@@ -105,14 +101,26 @@ const WinStreak = (() => {
         } else return;
     };
 
-    const printWinner = () => {
-        const winner = getWinner();
-        if (winner) {
-            console.log(`We have a winner! Congratulations ${winner}!`) 
-        }
-    };
+    const checkForWinner = () => {
+        const currentTurn = Turns.incrementCounter();
+        let winnerExists = false;
 
-    return { printWinner }
+        // check for winner starting from turn 6
+        if (currentTurn > 5) {
+            const winner = getWinner();
+            if (winner) {
+                winnerExists = true;
+                console.log(`We have a winner! Congratulations ${winner}!`) 
+            }
+        }
+
+        // game ends as a tie
+        if (currentTurn == 10 && !(winnerExists)) {
+            console.log("The game ended in a tie!");
+        }
+    }
+
+    return { checkForWinner }
 
 })();
 
