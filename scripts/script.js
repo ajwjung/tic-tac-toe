@@ -34,11 +34,15 @@ const DisplayController = (() => {
                     } else if (currentPlayer === "playerTwo") {
                         GameBoard.board[index] = p2.marker;
                     }
-                    Turns.incrementCounter();
+
+                    // check for winner starting from turn 6
+                    const currentTurn = Turns.incrementCounter();
+                    if (currentTurn > 5) {
+                        WinStreak.printWinner();
+                    }
                 } else return
                 
                 render(index);
-                WinStreak.printWinner();
             })
         })
     };
@@ -56,9 +60,12 @@ const Turns = (() => {
         else return "playerTwo";
     };
 
-    const incrementCounter = () => turnsCounter++;
+    const incrementCounter = () => {
+        ++turnsCounter;
+        return turnsCounter;
+    };
 
-    return { turnsCounter, getPlayerTurn, incrementCounter };
+    return { getPlayerTurn, incrementCounter };
 })();
 
 const WinStreak = (() => {
@@ -101,7 +108,7 @@ const WinStreak = (() => {
         }
     };
 
-    return { getWinner, printWinner }
+    return { printWinner }
 
 })();
 
