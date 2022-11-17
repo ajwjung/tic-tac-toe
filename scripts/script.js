@@ -7,8 +7,13 @@ const GameBoard = (() => {
     // Temporary contents
     // let board = ["X", "O", "X", "O", "X", "O", "X", "O", "O"];
     let board = ["", "", "", "", "", "", "", "", ""];
+
+    const resetBoard = () => {
+        const newBoard = ["", "", "", "", "", "", "", "", ""]
+        return board.splice(0, board.length, ...newBoard);
+    }
     
-    return { board };
+    return { board, resetBoard };
 })();
 
 // A module for displaying things
@@ -35,10 +40,15 @@ const DisplayController = (() => {
                         GameBoard.board[index] = p2.marker;
                     }
 
-                    disableCells(WinStreak.checkForWinner());
                 } else return;
                 
                 render(index);
+
+                let win = WinStreak.checkForWinner();
+                if (win) {
+                    disableCells(win);
+                    GameBoard.resetBoard();
+                }
             })
         })
     };
@@ -47,13 +57,14 @@ const DisplayController = (() => {
         if (gameWon) gridCells.forEach(cell => cell.classList.add("disable-pointer"))
     }
 
-    return { placeMarker }
+    return { render, placeMarker }
 
 })();
 
 // Module for turns
 const Turns = (() => {
     let turnsCounter = 1;
+    let gameOver = false;
 
     const getPlayerTurn = () => {
         // playerOne starts the game
@@ -66,7 +77,12 @@ const Turns = (() => {
         return turnsCounter;
     };
 
-    return { getPlayerTurn, incrementCounter };
+    const checkGameOver = () => {
+        turnsCounter == 10 ? gameOver = true : gameOver = false
+        return gameOver;
+    }
+
+    return { getPlayerTurn, incrementCounter, checkGameOver };
 })();
 
 const WinStreak = (() => {
@@ -142,16 +158,3 @@ const Game = (() => {
     DisplayController.placeMarker(playerOne, playerTwo);
 
 })();
-
-/* CURRENT ISSUES: 
-
-- Game does not terminate
-
-- Any moves played after the game was won
-will still log the congratulations message
-
-- Game checks for winner after every move 
-rather than starting from turn 5-6 when wins are actually possible
-
-
-*/
