@@ -19,35 +19,40 @@ const GameBoard = (() => {
 // A module for displaying things
 const DisplayController = (() => {
     const gridCells = document.querySelectorAll(".cell");
+    let cellClicked = false;
 
     // Display board contents
     const render = (ind) => {
         gridCells[ind].innerHTML = GameBoard.board[ind];
     };
 
+    const getCurrentMarker = (p1, p2) => {
+        const currentPlayer = Turns.getPlayerTurn();
+
+        if (currentPlayer === "playerOne") return p1.marker;
+        else if (currentPlayer === "playerTwo") return p2.marker;
+    }
+
     const placeMarker = (p1, p2) => {
         gridCells.forEach(cell => {
             cell.addEventListener("click", function (e) {
                 // get cell ID to use as array index
                 const index = e.target.getAttribute("id").slice(-1);
-                const currentPlayer = Turns.getPlayerTurn();
 
                 // only update board if spot is available
                 if (GameBoard.board[index].length === 0) {
-                    if (currentPlayer === "playerOne") {
-                        GameBoard.board[index] = p1.marker;
-                    } else if (currentPlayer === "playerTwo") {
-                        GameBoard.board[index] = p2.marker;
-                    }
+                    cellClicked = true;
+                    GameBoard.board[index] = getCurrentMarker(p1, p2);
 
                 } else return;
                 
                 render(index);
 
                 let win = WinStreak.checkForWinner();
-                if (win) {
+                if (win || Turns.checkGameOver()) {
                     disableCells(win);
                     GameBoard.resetBoard();
+                    // console.log(GameBoard.board)
                 }
             })
         })
@@ -57,13 +62,18 @@ const DisplayController = (() => {
         if (gameWon) gridCells.forEach(cell => cell.classList.add("disable-pointer"))
     }
 
-    return { render, placeMarker }
+    const enableCells = () => {
+        gridCells.forEach(cell => cell.classList.remove("disable-pointer"))
+    }
+
+    return { cellClicked, render, placeMarker, enableCells }
 
 })();
 
 // Module for turns
 const Turns = (() => {
     let turnsCounter = 1;
+    // const startingTurn = 1;
     let gameOver = false;
 
     const getPlayerTurn = () => {
@@ -81,6 +91,11 @@ const Turns = (() => {
         turnsCounter == 10 ? gameOver = true : gameOver = false
         return gameOver;
     }
+
+    // const resetCounter = () => {
+    //     turnsCounter = startingTurn;
+    //     return turnsCounter;
+    // }
 
     return { getPlayerTurn, incrementCounter, checkGameOver };
 })();
@@ -116,6 +131,8 @@ const WinStreak = (() => {
         const [winCombo] = boardResult;
 
         if (boardResult.length > 0) {
+            // console.log(boardResult);
+            // console.log(GameBoard.board);
             const winningMarker = GameBoard.board[winCombo[0]];
 
             // Can't we just return the marker by check it against the player object?
@@ -155,6 +172,23 @@ const Game = (() => {
     const playerOne = Player("Bob", "X");
     const playerTwo = Player("Jack", "O");
 
+    // const resetGame = () => {
+    //     GameBoard.resetBoard();
+    //     for (let i = 0; i < 9; i++) {
+    //         DisplayController.render(i);
+    //     }
+    // };
+
     DisplayController.placeMarker(playerOne, playerTwo);
+
+    // const resetBtn = document.querySelector("#reset");
+    // resetBtn.addEventListener("click", function (e) {
+    //     resetGame();
+    //     console.log(GameBoard.board);
+    //     const i = Turns.resetCounter();
+    //     console.log(i);
+    //     DisplayController.enableCells();
+    //     DisplayController.placeMarker(playerOne, playerTwo);
+    // })
 
 })();
