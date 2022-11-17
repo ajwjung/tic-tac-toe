@@ -4,8 +4,6 @@ const Player = (name, marker) => {
 
 // A module for the board
 const GameBoard = (() => {
-    // Temporary contents
-    // let board = ["X", "O", "X", "O", "X", "O", "X", "O", "O"];
     let board = ["", "", "", "", "", "", "", "", ""];
 
     const resetBoard = () => {
@@ -48,9 +46,10 @@ const DisplayController = (() => {
                 
                 render(index);
 
+                // If game was won or ends in tie
                 let win = WinStreak.checkForWinner();
                 if (win || Turns.checkGameOver()) {
-                    disableCells(win);
+                    disableCells();
                     GameBoard.resetBoard();
                     // console.log(GameBoard.board)
                 }
@@ -58,8 +57,8 @@ const DisplayController = (() => {
         })
     };
 
-    const disableCells = (gameWon) => {
-        if (gameWon) gridCells.forEach(cell => cell.classList.add("disable-pointer"))
+    const disableCells = () => {
+        gridCells.forEach(cell => cell.classList.add("disable-pointer"))
     }
 
     const enableCells = () => {
