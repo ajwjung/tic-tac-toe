@@ -49,9 +49,10 @@ const DisplayController = (() => {
                 // If game was won or ends in tie
                 let win = WinStreak.checkForWinner();
                 if (win || Turns.checkGameOver()) {
+                    console.log("Winning board:", GameBoard.board);
                     disableCells();
                     GameBoard.resetBoard();
-                    // console.log(GameBoard.board)
+                    console.log(GameBoard.board)
                 }
             })
         })
@@ -72,7 +73,7 @@ const DisplayController = (() => {
 // Module for turns
 const Turns = (() => {
     let turnsCounter = 1;
-    // const startingTurn = 1;
+    const startingTurn = 1;
     let gameOver = false;
 
     const getPlayerTurn = () => {
@@ -91,12 +92,12 @@ const Turns = (() => {
         return gameOver;
     }
 
-    // const resetCounter = () => {
-    //     turnsCounter = startingTurn;
-    //     return turnsCounter;
-    // }
+    const resetCounter = () => {
+        turnsCounter = startingTurn;
+        return turnsCounter;
+    }
 
-    return { getPlayerTurn, incrementCounter, checkGameOver };
+    return { getPlayerTurn, incrementCounter, checkGameOver, resetCounter };
 })();
 
 const WinStreak = (() => {
@@ -130,12 +131,8 @@ const WinStreak = (() => {
         const [winCombo] = boardResult;
 
         if (boardResult.length > 0) {
-            // console.log(boardResult);
-            // console.log(GameBoard.board);
             const winningMarker = GameBoard.board[winCombo[0]];
 
-            // Can't we just return the marker by check it against the player object?
-            // like playerOne.name or playerOne.marker or something?
             if (winningMarker == "X") return "Player 1"
             else if (winningMarker == "O") return "Player 2"
         } else return;
@@ -171,23 +168,23 @@ const Game = (() => {
     const playerOne = Player("Bob", "X");
     const playerTwo = Player("Jack", "O");
 
-    // const resetGame = () => {
-    //     GameBoard.resetBoard();
-    //     for (let i = 0; i < 9; i++) {
-    //         DisplayController.render(i);
-    //     }
-    // };
+    const resetGame = () => {
+        GameBoard.resetBoard();
+        for (let i = 0; i < 9; i++) {
+            DisplayController.render(i);
+        }
+    };
 
     DisplayController.placeMarker(playerOne, playerTwo);
 
-    // const resetBtn = document.querySelector("#reset");
-    // resetBtn.addEventListener("click", function (e) {
-    //     resetGame();
-    //     console.log(GameBoard.board);
-    //     const i = Turns.resetCounter();
-    //     console.log(i);
-    //     DisplayController.enableCells();
-    //     DisplayController.placeMarker(playerOne, playerTwo);
-    // })
+    const resetBtn = document.querySelector("#reset");
+    resetBtn.addEventListener("click", function (e) {
+        resetGame();
+        console.log(GameBoard.board);
+        const i = Turns.resetCounter();
+        console.log(i);
+        DisplayController.enableCells();
+        DisplayController.placeMarker(playerOne, playerTwo);
+    })
 
 })();
