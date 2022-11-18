@@ -67,7 +67,7 @@ main {
     grid-row: 2;
 }
 
-form {
+form * {
     font-size: var(--small-font);
 }
 
