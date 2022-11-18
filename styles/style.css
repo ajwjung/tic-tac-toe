@@ -39,6 +39,7 @@ h1 {
 
 header > p {
     font-family: var(--second-font);
+    margin: 0;
 }
 
 header,
@@ -64,7 +65,6 @@ main {
 
 main {
     grid-row: 2;
-    gap: 5rem;
 }
 
 form {
@@ -104,6 +104,7 @@ input {
 #reset {
     height: 50px;
     width: 50px;
+    margin-top: 2rem;
     background-image: url("../images/refresh.svg");
     background-size: cover;
 }
