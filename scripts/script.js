@@ -63,8 +63,19 @@ const DisplayController = (() => {
     const enableCells = () => {
         gridCells.forEach(cell => cell.classList.remove("disable-pointer"))
     }
+    
+    const msgPara = document.querySelector(".message");
+    
+    const displayMessage = (message) => {
+        msgPara.innerHTML = message;
+    }
 
-    return { cellClicked, render, placeMarker, enableCells }
+    const clearMessage = () => {
+        msgPara.innerHTML = "Good luck!";
+    }
+
+    return { cellClicked, render, placeMarker, enableCells,
+        displayMessage, clearMessage }
 
 })();
 
@@ -145,13 +156,14 @@ const WinStreak = (() => {
             const winner = getWinner();
             if (winner) {
                 winnerExists = true;
-                console.log(`We have a winner! Congratulations ${winner}!`) 
+                DisplayController.displayMessage(`${winner} wins!`);
+                // console.log(`We have a winner! Congratulations ${winner}!`) 
             }
         }
 
         // game ends as a tie
         if (currentTurn == 10 && !(winnerExists)) {
-            console.log("The game ended in a tie!");
+            DisplayController.displayMessage("The game ended in a tie!");
         }
 
         return winnerExists
@@ -171,6 +183,7 @@ const Game = (() => {
         for (let i = 0; i < 9; i++) {
             DisplayController.render(i);
         }
+        DisplayController.clearMessage();
     };
 
     DisplayController.placeMarker(playerOne, playerTwo);
