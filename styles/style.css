@@ -3,8 +3,19 @@ body {
     width: 100vw;
     margin: 0 auto;
     padding: 0;
+    grid-template-rows: 0.5fr 2fr;
 }
 
+body,
+.grid-container {
+    display: grid;
+}
+
+header {
+    grid-row: 1;
+}
+
+header,
 main,
 .cell {
     display: flex;
@@ -14,15 +25,18 @@ main,
     width: 100%;
 }
 
+header,
 main {
     flex-direction: column;
-    gap: 5rem;
+}
+
+main {
+    grid-row: 2;
 }
 
 .grid-container {
     height: 50%;
     width: 50%;
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 15px;
@@ -38,6 +52,7 @@ main {
     width: 50px;
     background-image: url("../images/refresh.svg");
     background-size: cover;
+    margin-top: 5rem;
 }
 
 .disable-pointer {
