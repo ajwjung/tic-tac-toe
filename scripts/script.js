@@ -49,10 +49,8 @@ const DisplayController = (() => {
                 // If game was won or ends in tie
                 let win = WinStreak.checkForWinner();
                 if (win || Turns.checkGameOver()) {
-                    console.log("Winning board:", GameBoard.board);
                     disableCells();
                     GameBoard.resetBoard();
-                    console.log(GameBoard.board)
                 }
             })
         })
@@ -180,11 +178,7 @@ const Game = (() => {
     const resetBtn = document.querySelector("#reset");
     resetBtn.addEventListener("click", function (e) {
         resetGame();
-        console.log(GameBoard.board);
-        const i = Turns.resetCounter();
-        console.log(i);
         DisplayController.enableCells();
-        DisplayController.placeMarker(playerOne, playerTwo);
     })
 
 })();
