@@ -104,8 +104,8 @@ input {
 }
 
 .grid-container {
-    height: 50%;
-    width: 50%;
+    height: 60%;
+    width: clamp(300px, 60%, 400px);
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 15px;
