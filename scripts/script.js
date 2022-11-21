@@ -173,6 +173,21 @@ const WinStreak = (() => {
 
 })();
 
+const checkForm = (() => {
+    const checkEmpty = (player) => {
+        if (player.value == "") {
+            alert(`${player.name} must enter a name`);
+            player.focus();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    return { checkEmpty };
+
+})();
+
 // Main module to run the game
 const Game = (() => {
     const playerOne = Player("Bob", "X");
@@ -181,9 +196,14 @@ const Game = (() => {
     // submit form
     const startBtn = document.querySelector("#start");
     const theForm = document.querySelector(".form-container");
+    const playerOneName = document.getElementById("player-one");
+    const playerTwoName = document.getElementById("player-two");
+
     startBtn.addEventListener("click", function (e) {
         e.preventDefault();
-        theForm.classList.toggle("hidden");
+        if (checkForm.checkEmpty(playerOneName) && checkForm.checkEmpty(playerTwoName)) {
+            theForm.classList.toggle("hidden");
+        }
     })
 
     const resetGame = () => {
@@ -192,6 +212,7 @@ const Game = (() => {
             DisplayController.render(i);
         }
         DisplayController.clearMessage();
+        // makes form re-appear when restarting new game
         theForm.classList.toggle("hidden");
     };
 
