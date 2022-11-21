@@ -17,31 +17,33 @@
         <p class="message">Good luck!</p>
     </header>
     <main>
-        <form>
-            <table>
-                <thead>
+        <div class="form-container">
+            <form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><label for="player-one">Player One's name:</label></th>
+                            <th><label for="player-two">Player Two's name:</label></th>
+                        </tr>
+                    </thead>
                     <tr>
-                        <th><label for="player-one">Player One's name:</label></th>
-                        <th><label for="player-two">Player Two's name:</label></th>
+                        <td>
+                            <input type="text" id="player-one" name="player_one" placeholder="Bob" required>
+                        </td>
+                        <td>
+                            <input type="text" id="player-two" name="player_two" placeholder="Jack" required>
+                        </td>
                     </tr>
-                </thead>
-                <tr>
-                    <td>
-                        <input type="text" id="player-one" name="player_one" placeholder="Bob" required>
-                    </td>
-                    <td>
-                        <input type="text" id="player-two" name="player_two" placeholder="Jack" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="start-container">
-                            <button type="button" id="start">Start</button>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                    <tr>
+                        <td colspan="2">
+                            <div class="start-container">
+                                <button type="submit" id="start">Start</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
 
         <div class="grid-container">
             <div class="cell" id="cell0"></div>
