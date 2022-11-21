@@ -15,8 +15,8 @@ const GameBoard = (() => {
 })();
 
 // A module for displaying things
-const DisplayController = (() => {
-    const gridCells = document.querySelectorAll(".cell");
+const DisplayController = ((doc) => {
+    const gridCells = doc.querySelectorAll(".cell");
     let cellClicked = false;
 
     // Display board contents
@@ -64,7 +64,7 @@ const DisplayController = (() => {
         gridCells.forEach(cell => cell.classList.remove("disable-pointer"))
     }
     
-    const msgPara = document.querySelector(".message");
+    const msgPara = doc.querySelector(".message");
     
     const displayMessage = (message) => {
         msgPara.innerHTML = message;
@@ -77,7 +77,7 @@ const DisplayController = (() => {
     return { cellClicked, render, placeMarker, disableCells, enableCells,
         displayMessage, clearMessage }
 
-})();
+})(document);
 
 // Module for turns
 const Turns = (() => {
@@ -188,14 +188,14 @@ const checkForm = (() => {
 })();
 
 // Main module to run the game
-const Game = (() => {
+const Game = ((doc) => {
     DisplayController.disableCells();
 
     // submit form
-    const startBtn = document.querySelector("#start");
-    const theForm = document.querySelector(".form-container");
-    const playerOneName = document.getElementById("player-one");
-    const playerTwoName = document.getElementById("player-two");
+    const startBtn = doc.querySelector("#start");
+    const theForm = doc.querySelector(".form-container");
+    const playerOneName = doc.getElementById("player-one");
+    const playerTwoName = doc.getElementById("player-two");
     let playerOne = Player("", "X");
     let playerTwo = Player("", "O");
 
@@ -213,7 +213,7 @@ const Game = (() => {
         playerTwo.name = playerTwoName.value;
     });
     
-    DisplayController.placeMarker();
+    DisplayController.placeMarker(doc);
 
     const resetGame = () => {
         GameBoard.resetBoard();
@@ -227,10 +227,10 @@ const Game = (() => {
         theForm.classList.toggle("hidden");
     };
 
-    const resetBtn = document.querySelector("#reset");
+    const resetBtn = doc.querySelector("#reset");
     resetBtn.addEventListener("click", function (e) {
         resetGame();
     })
 
     return { playerOne, playerTwo }
-})();
+})(document);
