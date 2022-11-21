@@ -87,14 +87,8 @@ const Turns = (() => {
 
     const getPlayerTurn = () => {
         // playerOne starts the game
-        console.log(turnsCounter);
-        if (!(turnsCounter % 2 === 0)) {
-            console.log(Game.playerOne);
-            return Game.playerOne.name
-        } else {
-            console.log(Game.playerTwo)
-            return Game.playerTwo.name;
-        }
+        if (!(turnsCounter % 2 === 0)) return Game.playerOne.name
+        else return Game.playerTwo.name;
     };
 
     const incrementCounter = () => {
@@ -163,7 +157,6 @@ const WinStreak = (() => {
             if (winner) {
                 winnerExists = true;
                 DisplayController.displayMessage(`${winner} wins!`);
-                // console.log(`We have a winner! Congratulations ${winner}!`) 
             }
         }
 
@@ -224,6 +217,7 @@ const Game = (() => {
 
     const resetGame = () => {
         GameBoard.resetBoard();
+        Turns.resetCounter();
         for (let i = 0; i < 9; i++) {
             DisplayController.render(i);
         }
