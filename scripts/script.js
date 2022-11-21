@@ -190,9 +190,6 @@ const checkForm = (() => {
 
 // Main module to run the game
 const Game = (() => {
-    const playerOne = Player("Bob", "X");
-    const playerTwo = Player("Jack", "O");
-
     // submit form
     const startBtn = document.querySelector("#start");
     const theForm = document.querySelector(".form-container");
@@ -206,6 +203,11 @@ const Game = (() => {
         }
     })
 
+    const playerOne = Player(playerOneName.value, "X");
+    const playerTwo = Player(playerOneName.value, "O");
+
+    DisplayController.placeMarker(playerOne, playerTwo);
+
     const resetGame = () => {
         GameBoard.resetBoard();
         for (let i = 0; i < 9; i++) {
@@ -215,8 +217,6 @@ const Game = (() => {
         // makes form re-appear when restarting new game
         theForm.classList.toggle("hidden");
     };
-
-    DisplayController.placeMarker(playerOne, playerTwo);
 
     const resetBtn = document.querySelector("#reset");
     resetBtn.addEventListener("click", function (e) {
