@@ -1,5 +1,4 @@
 :root {
-    /* --bg-color: rgb(255, 222, 115); */
     --bg-color: rgb(240, 232, 221);
     --font-color: rgb(134, 150, 79);
     --main-font: 'Secular One', sans-serif;
@@ -35,7 +34,7 @@ header {
 
 h1 {
     font-size: var(--large-font);
-    margin: 0;
+    margin: 10% 0 0 0;
 }
 
 header > p {
