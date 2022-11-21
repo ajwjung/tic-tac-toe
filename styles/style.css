@@ -71,15 +71,13 @@ form * {
     font-size: var(--small-font);
 }
 
-ul {
-    list-style: none;
-    padding-left: 0;
+td {
+    text-align: center;
+    vertical-align: middle;
 }
 
 input {
-    width: fit-content;
-    padding: 5px;
-    margin: 5px;
+    width: clamp(100px, 75%, 250px);
 }
 
 #start {
