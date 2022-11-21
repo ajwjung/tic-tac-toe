@@ -24,14 +24,14 @@ const DisplayController = (() => {
         gridCells[ind].innerHTML = GameBoard.board[ind];
     };
 
-    const getCurrentMarker = (p1, p2) => {
+    const getCurrentMarker = () => {
         const currentPlayer = Turns.getPlayerTurn();
 
-        if (currentPlayer === "playerOne") return p1.marker;
-        else if (currentPlayer === "playerTwo") return p2.marker;
+        if (currentPlayer === Game.playerOne.name) return Game.playerOne.marker;
+        else if (currentPlayer === Game.playerTwo.name) return Game.playerTwo.marker;
     }
 
-    const placeMarker = (p1, p2) => {
+    const placeMarker = () => {
         gridCells.forEach(cell => {
             cell.addEventListener("click", function (e) {
                 // get cell ID to use as array index
@@ -40,7 +40,7 @@ const DisplayController = (() => {
                 // only update board if spot is available
                 if (GameBoard.board[index].length === 0) {
                     cellClicked = true;
-                    GameBoard.board[index] = getCurrentMarker(p1, p2);
+                    GameBoard.board[index] = getCurrentMarker();
 
                 } else return;
                 
@@ -87,8 +87,14 @@ const Turns = (() => {
 
     const getPlayerTurn = () => {
         // playerOne starts the game
-        if (!(turnsCounter % 2 === 0)) return "playerOne"
-        else return "playerTwo";
+        console.log(turnsCounter);
+        if (!(turnsCounter % 2 === 0)) {
+            console.log(Game.playerOne);
+            return Game.playerOne.name
+        } else {
+            console.log(Game.playerTwo)
+            return Game.playerTwo.name;
+        }
     };
 
     const incrementCounter = () => {
@@ -142,8 +148,8 @@ const WinStreak = (() => {
         if (boardResult.length > 0) {
             const winningMarker = GameBoard.board[winCombo[0]];
 
-            if (winningMarker == "X") return "Player 1"
-            else if (winningMarker == "O") return "Player 2"
+            if (winningMarker == "X") return Game.playerOne.name
+            else if (winningMarker == "O") return Game.playerTwo.name
         } else return;
     };
 
@@ -197,19 +203,24 @@ const Game = (() => {
     const theForm = document.querySelector(".form-container");
     const playerOneName = document.getElementById("player-one");
     const playerTwoName = document.getElementById("player-two");
+    let playerOne = Player("", "X");
+    let playerTwo = Player("", "O");
 
-    startBtn.addEventListener("click", function (e) {
-        e.preventDefault();
+    const validateForm = () => {
         if (checkForm.checkEmpty(playerOneName) && checkForm.checkEmpty(playerTwoName)) {
             theForm.classList.toggle("hidden");
             DisplayController.enableCells();
         }
-    })
+    };
 
-    const playerOne = Player(playerOneName.value, "X");
-    const playerTwo = Player(playerOneName.value, "O");
-
-    DisplayController.placeMarker(playerOne, playerTwo);
+    startBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        validateForm();
+        playerOne.name = playerOneName.value;
+        playerTwo.name = playerTwoName.value;
+    });
+    
+    DisplayController.placeMarker();
 
     const resetGame = () => {
         GameBoard.resetBoard();
@@ -227,4 +238,5 @@ const Game = (() => {
         resetGame();
     })
 
+    return { playerOne, playerTwo }
 })();
