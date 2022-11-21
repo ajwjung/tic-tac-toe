@@ -74,7 +74,7 @@ const DisplayController = (() => {
         msgPara.innerHTML = "Good luck!";
     }
 
-    return { cellClicked, render, placeMarker, enableCells,
+    return { cellClicked, render, placeMarker, disableCells, enableCells,
         displayMessage, clearMessage }
 
 })();
@@ -190,6 +190,8 @@ const checkForm = (() => {
 
 // Main module to run the game
 const Game = (() => {
+    DisplayController.disableCells();
+
     // submit form
     const startBtn = document.querySelector("#start");
     const theForm = document.querySelector(".form-container");
@@ -200,6 +202,7 @@ const Game = (() => {
         e.preventDefault();
         if (checkForm.checkEmpty(playerOneName) && checkForm.checkEmpty(playerTwoName)) {
             theForm.classList.toggle("hidden");
+            DisplayController.enableCells();
         }
     })
 
@@ -214,6 +217,7 @@ const Game = (() => {
             DisplayController.render(i);
         }
         DisplayController.clearMessage();
+        DisplayController.disableCells();
         // makes form re-appear when restarting new game
         theForm.classList.toggle("hidden");
     };
@@ -221,7 +225,6 @@ const Game = (() => {
     const resetBtn = document.querySelector("#reset");
     resetBtn.addEventListener("click", function (e) {
         resetGame();
-        DisplayController.enableCells();
     })
 
 })();
