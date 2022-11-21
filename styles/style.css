@@ -110,3 +110,7 @@ input {
 .disable-pointer {
     pointer-events: none;
 }
+
+.hidden {
+    visibility: hidden;
+}
