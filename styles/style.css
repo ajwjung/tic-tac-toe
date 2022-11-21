@@ -1,6 +1,8 @@
 :root {
     --bg-color: rgb(240, 232, 221);
     --font-color: rgb(134, 150, 79);
+    --svg-filter-color: invert(50%) sepia(6%) saturate(1018%) hue-rotate(57deg) brightness(95%) contrast(91%);
+    --hover-color: rgba(241, 239, 235, 0.3);
     --main-font: 'Secular One', sans-serif;
     --second-font: 'Paytone One', sans-serif;
     --large-font: 3rem;
@@ -80,6 +82,21 @@ input {
     width: clamp(100px, 75%, 250px);
 }
 
+#start,
+#reset {
+    background: none;
+    border-radius: 3px;
+}
+
+#start:hover,
+#reset:hover {
+    background: var(--hover-color);
+}
+
+.filter-green {
+    filter: var(--svg-filter-color);
+}
+
 #start {
     height: 2rem;
     width: 100px;
@@ -100,10 +117,14 @@ input {
 }
 
 #reset {
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
     margin-top: 2rem;
-    background-image: url("../images/refresh.svg");
+}
+
+#reset > img {
+    height: 100%;
+    width: 100%;
     background-size: cover;
 }
 
