@@ -69,6 +69,10 @@ main {
     grid-row: 2;
 }
 
+.form-container {
+    margin: 1rem;
+}
+
 form * {
     font-size: var(--small-font);
 }
@@ -76,6 +80,7 @@ form * {
 td {
     text-align: center;
     vertical-align: middle;
+    margin: 5px;
 }
 
 input {
@@ -105,7 +110,7 @@ input {
 
 .grid-container {
     height: 60%;
-    width: clamp(300px, 60%, 400px);
+    width: clamp(300px, 60%, 450px);
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 15px;
