@@ -22,6 +22,11 @@ const DisplayController = ((doc) => {
     // Display board contents
     const render = (ind) => {
         gridCells[ind].innerHTML = GameBoard.board[ind];
+        if (GameBoard.board[ind] === "X") {
+            gridCells[ind].style.color = "#dc606b"; // reddish color
+        } else if (GameBoard.board[ind] === "O") {
+            gridCells[ind].style.color = "#356d94"; // blueish color
+        }
     };
 
     const getCurrentMarker = () => {
