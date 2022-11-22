@@ -2,7 +2,6 @@ const Player = (name, marker) => {
     return { name, marker }
 }
 
-// A module for the board
 const GameBoard = (() => {
     let board = ["", "", "", "", "", "", "", "", ""];
 
@@ -14,7 +13,6 @@ const GameBoard = (() => {
     return { board, resetBoard };
 })();
 
-// A module for displaying things
 const DisplayController = ((doc) => {
     const gridCells = doc.querySelectorAll(".cell");
     let cellClicked = false;
@@ -32,17 +30,20 @@ const DisplayController = ((doc) => {
     const getCurrentMarker = () => {
         const currentPlayer = Turns.getPlayerTurn();
 
-        if (currentPlayer === Game.playerOne.name) return Game.playerOne.marker;
-        else if (currentPlayer === Game.playerTwo.name) return Game.playerTwo.marker;
+        if (currentPlayer === Game.playerOne.name) {
+            return Game.playerOne.marker;
+        } else if (currentPlayer === Game.playerTwo.name) {
+            return Game.playerTwo.marker;
+        }
     }
 
     const placeMarker = () => {
         gridCells.forEach(cell => {
             cell.addEventListener("click", function (e) {
-                // get cell ID to use as array index
+                // Index from cell ID
                 const index = e.target.getAttribute("id").slice(-1);
 
-                // only update board if spot is available
+                // Only update board if spot is available
                 if (GameBoard.board[index].length === 0) {
                     cellClicked = true;
                     GameBoard.board[index] = getCurrentMarker();
@@ -51,7 +52,7 @@ const DisplayController = ((doc) => {
                 
                 render(index);
 
-                // If game was won or ends in tie
+                // Check if game was won or ended in tie
                 let win = WinStreak.checkForWinner();
                 if (win || Turns.checkGameOver()) {
                     disableCells();
@@ -93,7 +94,6 @@ const DisplayController = ((doc) => {
 
 })(document);
 
-// Module for turns
 const Turns = (() => {
     let turnsCounter = 1;
     const startingTurn = 1;
@@ -101,8 +101,11 @@ const Turns = (() => {
 
     const getPlayerTurn = () => {
         // playerOne starts the game
-        if (!(turnsCounter % 2 === 0)) return Game.playerOne.name
-        else return Game.playerTwo.name;
+        if (!(turnsCounter % 2 === 0)) {
+            return Game.playerOne.name;
+        } else {
+            return Game.playerTwo.name;
+        }
     };
 
     const incrementCounter = () => {
@@ -156,8 +159,12 @@ const WinStreak = (() => {
         if (boardResult.length > 0) {
             const winningMarker = GameBoard.board[winCombo[0]];
 
-            if (winningMarker == "X") return Game.playerOne.name
-            else if (winningMarker == "O") return Game.playerTwo.name
+            if (winningMarker == "X") {
+                return Game.playerOne.name;
+            }
+            else if (winningMarker == "O") {
+                return Game.playerTwo.name;
+            }
         } else return;
     };
 
