@@ -71,12 +71,21 @@ const DisplayController = ((doc) => {
     
     const msgPara = doc.querySelector(".message");
     
-    const displayMessage = (message) => {
+    const displayMessage = (player, message) => {
         msgPara.innerHTML = message;
+        
+        if (player === Game.playerOne.name) {
+            msgPara.style.color = "#dc606b";
+        } else if (player === Game.playerTwo.name) {
+            msgPara.style.color = "#356d94";
+        } else {
+            msgPara.style.color = "#86964E";
+        }
     }
 
     const clearMessage = () => {
         msgPara.innerHTML = "Good luck!";
+        msgPara.style.color = "#86964E";
     }
 
     return { cellClicked, render, placeMarker, disableCells, enableCells,
@@ -161,13 +170,13 @@ const WinStreak = (() => {
             const winner = getWinner();
             if (winner) {
                 winnerExists = true;
-                DisplayController.displayMessage(`${winner} wins!`);
+                DisplayController.displayMessage(winner, `${winner} wins!`);
             }
         }
 
         // game ends as a tie
         if (currentTurn == 10 && !(winnerExists)) {
-            DisplayController.displayMessage("The game ended in a tie!");
+            DisplayController.displayMessage(undefined, "The game ended in a tie!");
         }
 
         return winnerExists
