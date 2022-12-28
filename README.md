@@ -1,5 +1,7 @@
 # Tic-Tac-Toe
 
+* [Live Demo](https://ajwjung.github.io/tic-tac-toe/) :star2:
+
 ## Objective
 
 To create a Tic Tac Toe game playable in browser and to practice writing code using the module pattern and factories. Full project details can be found at [The Odin Project's page](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe).
