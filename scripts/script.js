@@ -266,10 +266,11 @@ const Game = ((doc) => {
     const validateForm = () => {
     /*
         The function checks the input fields and, if they are valid,
-        starts the game.
+        displays the players' names and starts the game.
     */
         if (checkForm.checkEmpty(playerOneName) && checkForm.checkEmpty(playerTwoName)) {
             form.classList.toggle("hidden");
+            updatePlayerNames();
             DisplayController.enableCells();
         }
     };
@@ -284,7 +285,7 @@ const Game = ((doc) => {
 
         player1.textContent = `${playerOneName.value} (${Game.playerOne.marker})`;
         player2.textContent = `${playerTwoName.value} (${Game.playerTwo.marker})`;
-        namesContainer.classList.toggle("hidden");
+        namesContainer.classList.remove("hidden");
     };
 
     // Handles the start button
@@ -293,7 +294,6 @@ const Game = ((doc) => {
         validateForm();
         playerOne.name = playerOneName.value;
         playerTwo.name = playerTwoName.value;
-        updatePlayerNames();
     });
     
     // Allows users to take turns playing the game
@@ -314,7 +314,7 @@ const Game = ((doc) => {
         DisplayController.disableCells();
         // makes form re-appear when restarting new game
         form.classList.toggle("hidden");
-        namesContainer.classList.toggle("hidden");
+        namesContainer.classList.add("hidden");
         playAgainBtn.classList.add("hidden");
     };
 
