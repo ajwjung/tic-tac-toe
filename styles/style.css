@@ -191,6 +191,19 @@ form {
     background-size: cover;
 }
 
+/* Styles for play-again button */
+.play-again {
+    width: fit-content;
+    background: none;
+    border: 2px solid var(--font-color);
+    border-radius: 3px;    
+}
+
+.play-again:hover {
+    background: var(--hover-solid);
+    font-style: italic;
+}
+
 /* Styles for misc. effects */
 .disable-pointer {
     pointer-events: none;

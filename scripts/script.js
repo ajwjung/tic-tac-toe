@@ -42,6 +42,8 @@ const DisplayController = ((doc) => {
         The function updates the clicked cell 
         with the current player's marker on click 
         and also checks whether this move was a winning move.
+        If so, allow players to play again (if desired)
+        without entering their names again.
     */
         gridCells.forEach(cell => {
             cell.addEventListener("click", function (e) {
@@ -63,6 +65,8 @@ const DisplayController = ((doc) => {
                 if (win || Turns.checkGameOver()) {
                     disableCells();
                     GameBoard.resetBoard();
+                    playAgainBtn.classList.remove("hidden");
+                    playAgainBtn.addEventListener("click", Game.playAgain);
                 }
             })
         })
@@ -314,8 +318,25 @@ const Game = ((doc) => {
         playAgainBtn.classList.add("hidden");
     };
 
+    const playAgain = () => {
+        /*
+            The function resets the gameboard both logically and visually
+            to its initial state but players are *not* required to enter 
+            their names again.
+        */
+
+        playAgainBtn.classList.add("hidden");
+        GameBoard.resetBoard();
+        Turns.resetCounter();
+        for (let i = 0; i < 9; i++) {
+            DisplayController.render(i);
+        }
+        DisplayController.clearMessage();
+        DisplayController.enableCells();
+    }
+
     const resetBtn = doc.querySelector("#reset");
     resetBtn.addEventListener("click", resetGame);
 
-    return { playerOne, playerTwo }
+    return { playerOne, playerTwo, playAgain }
 })(document);
