@@ -1,64 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Secular+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css">
-    <script src="scripts/script.js" defer></script>    
-    <title>Tic Tac Toe</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Secular+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="scripts/script.js" defer></script>    
+  <title>Tic Tac Toe</title>
 </head>
 <body>
-    <header>
-        <h1>Tic Tac Toe</h1>
-        <p class="message">Good luck!</p>
-    </header>
-    <main>
-        <div class="form-container">
-            <form>
-                <table>
-                    <thead>
-                        <tr>
-                            <th><label for="player-one">Player One's name:</label></th>
-                            <th><label for="player-two">Player Two's name:</label></th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>
-                            <input type="text" id="player-one" name="player_one" placeholder="Bob" required>
-                        </td>
-                        <td>
-                            <input type="text" id="player-two" name="player_two" placeholder="Jack" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <div class="start-container">
-                                <button type="submit" id="start" class="filter-green">START!</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-
-        <div class="grid-container">
-            <div class="cell" id="cell0"></div>
-            <div class="cell" id="cell1"></div>
-            <div class="cell" id="cell2"></div>
-            <div class="cell" id="cell3"></div>
-            <div class="cell" id="cell4"></div>
-            <div class="cell" id="cell5"></div>
-            <div class="cell" id="cell6"></div>
-            <div class="cell" id="cell7"></div>
-            <div class="cell" id="cell8"></div>
-        </div>
-        <button id="reset" class="filter-green">
-            <img src="images/refresh.svg" alt="Reset icon"/>
-        </button>
-    </main>
+  <header>
+    <h1>Tic Tac Toe</h1>
+    <p class="message">Good luck!</p>
+  </header>
+  <main>
+    <form>
+      <div class="player-one">
+        <label for="player-one">Player One's name:</label>
+        <input type="text" id="player-one" name="player_one" placeholder="Bob" required>
+      </div>
+      <div class="player-two">
+        <label for="player-two">Player Two's name:</label>
+        <input type="text" id="player-two" name="player_two" placeholder="Jack" required>
+      </div>
+      <div class="start-container">
+        <button type="submit" id="start" class="filter-green">START!</button>
+      </div>
+    </form>
+    <div class="player-names hidden">
+      <p class="p1"></p>
+      <p class="p2"></p>
+    </div>
+    <div class="grid-container">
+      <div class="cell" id="cell0"></div>
+      <div class="cell" id="cell1"></div>
+      <div class="cell" id="cell2"></div>
+      <div class="cell" id="cell3"></div>
+      <div class="cell" id="cell4"></div>
+      <div class="cell" id="cell5"></div>
+      <div class="cell" id="cell6"></div>
+      <div class="cell" id="cell7"></div>
+      <div class="cell" id="cell8"></div>
+    </div>
+    <div class="button-container">
+      <button id="reset" class="filter-green">
+        <img src="images/refresh.svg" alt="Reset icon"/>
+      </button>
+      <button class="play-again hidden" type="button">Play Again</button>
+    </div>
+  </main>
 </body>
 </html>

@@ -38,6 +38,11 @@ const DisplayController = ((doc) => {
     }
 
     const placeMarker = () => {
+    /*
+        The function updates the clicked cell 
+        with the current player's marker on click 
+        and also checks whether this move was a winning move.
+    */
         gridCells.forEach(cell => {
             cell.addEventListener("click", function (e) {
                 // Index from cell ID
@@ -52,6 +57,7 @@ const DisplayController = ((doc) => {
                 
                 render(index);
 
+                const playAgainBtn = doc.querySelector(".play-again");
                 // Check if game was won or ended in tie
                 let win = WinStreak.checkForWinner();
                 if (win || Turns.checkGameOver()) {
@@ -73,6 +79,10 @@ const DisplayController = ((doc) => {
     const msgPara = doc.querySelector(".message");
     
     const displayMessage = (player, message) => {
+    /*
+        The function updates the message box and styles the text
+        based on which player was passed in.
+    */
         msgPara.innerHTML = message;
         
         if (player === Game.playerOne.name) {
@@ -100,7 +110,7 @@ const Turns = (() => {
     let gameOver = false;
 
     const getPlayerTurn = () => {
-        // playerOne starts the game
+        // playerOne starts the game (odd turns)
         if (!(turnsCounter % 2 === 0)) {
             return Game.playerOne.name;
         } else {
@@ -139,7 +149,14 @@ const WinStreak = (() => {
     ]
 
     const checkBoard = () => {
-        // Check that all elements at each index in the combo are the same marker
+        /*
+            The function compares the marker/value in each cell of each winning combo
+            to determine whether there was a win, and returns the winning combo, 
+            if any. The cells must contain a marker to be considered a win 
+            (i.e., empty strings are ignored).
+
+            E.g., If cells 3, 4, and 5 all contained Xs, this would be a win
+        */
         return winningCombos.filter(combo => {
             const [i, j, k] = combo;
             return (
@@ -151,6 +168,13 @@ const WinStreak = (() => {
     };
 
     const getWinner = () => {
+        /*
+            The function takes the result from `checkBoard`
+            and uses the first index of the winning combo
+            to retrieve the winner's marker. Based on the marker,
+            the function returns the corresponding player's name.
+        */
+
         // Array returned from filter
         const boardResult = checkBoard();
         // Actual combo
@@ -169,10 +193,19 @@ const WinStreak = (() => {
     };
 
     const checkForWinner = () => {
+        /*
+            The function begins checking for a win starting from turn 6,
+            which is when a win becomes possible, and returns the winner,
+            if any.
+            
+            On end game, a message is displayed to congratulate the player
+            or to announce a tie.
+        */
+
         const currentTurn = Turns.incrementCounter();
         let winnerExists = false;
 
-        // check for winner starting from turn 6
+        // Check for winner starting from turn 6
         if (currentTurn > 5) {
             const winner = getWinner();
             if (winner) {
@@ -181,12 +214,12 @@ const WinStreak = (() => {
             }
         }
 
-        // game ends as a tie
+        // Game ends as a tie
         if (currentTurn == 10 && !(winnerExists)) {
             DisplayController.displayMessage(undefined, "The game ended in a tie!");
         }
 
-        return winnerExists
+        return winnerExists;
     }
 
     return { checkForWinner }
@@ -194,6 +227,11 @@ const WinStreak = (() => {
 })();
 
 const checkForm = (() => {
+    /*
+        The function checks whether the input fields for player names 
+        has been filled out, as they are required.
+    */
+
     const checkEmpty = (player) => {
         if (player.value == "") {
             alert(`${player.name} must enter a name`);
@@ -212,31 +250,57 @@ const checkForm = (() => {
 const Game = ((doc) => {
     DisplayController.disableCells();
 
-    // submit form
     const startBtn = doc.querySelector("#start");
-    const theForm = doc.querySelector(".form-container");
+    const form = doc.querySelector("form");
     const playerOneName = doc.getElementById("player-one");
     const playerTwoName = doc.getElementById("player-two");
+    const namesContainer = doc.querySelector(".player-names");
+    const playAgainBtn = doc.querySelector(".play-again");
     let playerOne = Player("", "X");
     let playerTwo = Player("", "O");
 
     const validateForm = () => {
+    /*
+        The function checks the input fields and, if they are valid,
+        starts the game.
+    */
         if (checkForm.checkEmpty(playerOneName) && checkForm.checkEmpty(playerTwoName)) {
-            theForm.classList.toggle("hidden");
+            form.classList.toggle("hidden");
             DisplayController.enableCells();
         }
     };
 
-    startBtn.addEventListener("click", function (e) {
+    const updatePlayerNames = () => {
+        /*
+            The function displays the players' names in place of the input fields.
+        */
+
+        const player1 = doc.querySelector(".p1");
+        const player2 = doc.querySelector(".p2");
+
+        player1.textContent = `${playerOneName.value} (${Game.playerOne.marker})`;
+        player2.textContent = `${playerTwoName.value} (${Game.playerTwo.marker})`;
+        namesContainer.classList.toggle("hidden");
+    };
+
+    // Handles the start button
+    startBtn.addEventListener("click", (e) => {
         e.preventDefault();
         validateForm();
         playerOne.name = playerOneName.value;
         playerTwo.name = playerTwoName.value;
+        updatePlayerNames();
     });
     
+    // Allows users to take turns playing the game
     DisplayController.placeMarker(doc);
 
     const resetGame = () => {
+        /*
+            The function resets the gameboard both logically and visually
+            to its initial state. Players are required to enter their names again.
+        */
+
         GameBoard.resetBoard();
         Turns.resetCounter();
         for (let i = 0; i < 9; i++) {
@@ -245,13 +309,13 @@ const Game = ((doc) => {
         DisplayController.clearMessage();
         DisplayController.disableCells();
         // makes form re-appear when restarting new game
-        theForm.classList.toggle("hidden");
+        form.classList.toggle("hidden");
+        namesContainer.classList.toggle("hidden");
+        playAgainBtn.classList.add("hidden");
     };
 
     const resetBtn = doc.querySelector("#reset");
-    resetBtn.addEventListener("click", function (e) {
-        resetGame();
-    })
+    resetBtn.addEventListener("click", resetGame);
 
     return { playerOne, playerTwo }
 })(document);
